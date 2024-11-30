@@ -1,0 +1,121 @@
+/* Contenedor general */
+.radio-container {
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    background-color: var(--background-secciones);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Grupo de radios */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Estilo del radio */
+.radio-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--color-texto);
+}
+
+.radio {
+    display: none;
+}
+
+/* Custom radio */
+.custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-primario);
+    border-radius: 50%;
+    background-color: transparent;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Estado activado */
+.radio:checked + .custom-radio {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    box-shadow: 0 0 5px var(--color-primario);
+}
+
+/* Círculo interno */
+.custom-radio::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Oculto inicialmente */
+    opacity: 0; /* Transparente inicialmente */
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Animación al activar */
+.radio:checked + .custom-radio::after {
+    transform: translate(-50%, -50%) scale(1); /* Aparece completamente */
+    opacity: 1;
+}
+
+
+/* Botón de reset */
+
+
+.btn-reset:hover {
+    background-color: var(--danger-hover);
+}
+
+/* Contenedor del input adicional */
+#custom-input-container {
+    margin-left: 30px;
+}
+
+#custom-input {
+    width: 100%;
+    padding: 5px;
+    border: 2px solid var(--color-primario);
+    border-radius: 5px;
+}
+
+/* Mensaje de error */
+.error-message {
+    color: red;
+    font-size: 0.875rem;
+}
+
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s ease, opacity 0.2s ease;
+}
+
+
+.btn-reset {
+    padding: 10px 20px;
+    background-color: var(--color-danger);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.2s ease, opacity 0.2s ease;
+}
+/* Animación de entrada */
+@keyframes check-in {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

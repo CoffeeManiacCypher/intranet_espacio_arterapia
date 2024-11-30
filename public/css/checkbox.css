@@ -1,0 +1,95 @@
+/* Estilo general del contenedor */
+.checkbox-container {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: var(--background-secciones);
+}
+
+/* Contenedor del checkbox */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--color-texto);
+    gap: 10px; /* Espaciado entre checkbox e ícono */
+}
+
+/* Esconder el input real */
+.checkbox {
+    display: none;
+}
+
+/* Estilo del custom checkbox */
+.custom-checkbox {
+    width: 1em; /* Tamaño relativo */
+    height: 1em;
+    border: 2px solid var(--color-primario);
+    border-radius: 5px;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Estado activado */
+.checkbox:checked + .custom-checkbox {
+    background-color: var(--color-primario);
+    box-shadow: 0 0 5px var(--color-primario);
+    border-color: var(--color-primario);
+}
+
+/* Icono de activación */
+.custom-checkbox::after {
+    content: '\f00c'; /* FontAwesome checkmark */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.checkbox:checked + .custom-checkbox::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Checkbox deshabilitado */
+.checkbox:disabled + .custom-checkbox {
+    border-color: #ccc;
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+/* Hover en checkbox */
+.checkbox-wrapper:hover .custom-checkbox {
+    box-shadow: 0 0 5px rgba(0, 160, 134, 0.6);
+}
+
+/* Variantes de color */
+.checkbox-primary:checked + .custom-checkbox {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+}
+
+.checkbox-danger:checked + .custom-checkbox {
+    background-color: var(--danger-hover);
+    border-color: var(--danger-hover);
+}
+
+/* Adaptación responsiva */
+@media (max-width: 768px) {
+    .checkbox-wrapper {
+        font-size: 0.9rem;
+    }
+    .custom-checkbox {
+        width: 0.9em;
+        height: 0.9em;
+    }
+}

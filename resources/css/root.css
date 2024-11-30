@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    /* Colores primarios y secundarios */
+    --color-primario: #72CBC9;
+    --color-primario-hover: #088395;
+    --color-secundario: #F3D0D7;
+    --color-secundario-hover: #F39DAB;
+    --blanco: #FFFFFF;
+
+    /* Colores auxiliares */
+    --color-auxiliar: #D6EFD8;
+    --color-auxiliar-hover: #A4CCB8;
+
+    /* Backgrounds */
+    --background-home: #E9ECF1;
+    --background-contenido: #FAFCFF;
+    --background-secciones: #EEF6F9;
+
+    /* Texto */
+    --fuente-titulos: 'Montserrat', serif;
+    --fuente-texto: 'Poppins', sans-serif;
+    --texto: #343434;
+    --texto-oscuros: #FAFCFF;
+
+    /* NavBar */
+    --navbar: #D6EFD8;
+
+    /* Colores de secciones */
+    --pacientes: #72CBC9;
+    --giftcard: #EE9A12;
+    --pago-qr: #0D79AE;
+    --valoracion: #F3D0D7;
+
+    /* Botones */
+    --success: #CCE0AC;
+    --warning: #F0EAAC;
+    --danger: #FF8A8A;
+    --color-editar: #FFD09B;
+
+    /* Hover sugerencias */
+    --success-hover: #A8B987;
+    --warning-hover: #E0D58E;
+    --danger-hover: #FF6E6E;
+    --editar-hover: #FFC178;
+}
+
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--fuente-texto);
+    background-color: var(--background-home);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--fuente-titulos);
+}
+
+a {
+    color: var(--color-primario);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primario-hover);
+}
+
+button {
+    font-family: var(--fuente-texto);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* Para agregar más estilos generales a medida que el proyecto avanza */

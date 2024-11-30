@@ -1,0 +1,87 @@
+.form-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+/* Estilos generales para el contenedor */
+.input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el grupo de input e icono */
+.input-group {
+    display: flex;
+    align-items: center;
+    border: 2px solid #00A086; /* Borde general */
+    border-radius: 10px;
+    padding: 10px;
+    background-color: var(--background-secciones);/* Hereda el color de fondo del contenedor */
+    transition: all 0.3s ease;
+    position: relative; /* Asegura el contexto de apilamiento */
+    z-index: 1; /* Asegura que el input no cubra el label */
+}
+.input-group:hover,
+.input-group:focus-within {
+    box-shadow: 0 0 10px rgba(0, 160, 134, 0.3); /* Efecto al pasar el ratón */
+}
+
+/* Estilos para el icono dentro del input */
+.input-group-text {
+    background: var(--background-secciones);
+    border: none;
+    padding: 0 10px;
+    color: #00A086;
+    font-size: 1.5rem;
+}
+
+/* Estilos para el input */
+.input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 1rem;
+    color: #343434;
+    background-color: var(--background-secciones); /* Asegura que el fondo sea transparente */
+}
+
+/* Estilos para el label flotante */
+.label {
+    position: absolute;
+    top: 50%;
+    left: 50px; /* Alineado con el input */
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    color: #00A086;
+    pointer-events: none;
+    background-color: var(--background-secciones); /* Asegura que el label también herede el fondo */
+    padding: 0 5px;
+    z-index: 2; /* Eleva el label para que no quede sobre el input */
+}
+
+/* Cuando el input tiene contenido o está enfocado, el label sube */
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+    transform: translateY(-200%); /* Mueve el label hacia arriba */
+    font-size: 0.8rem;
+    color: #00A086;
+    background-color: var(--background-secciones); /* Hereda el fondo del contenedor */
+    padding: 0 5px; /* Añade espacio para cubrir el borde */
+    border-radius: 10px;
+    z-index: 3; /* Se asegura que el label esté por encima del borde del input */
+}
+
+/* Ajustes adicionales para asegurar que el label no cubra el texto */
+.input:focus,
+.input-group:focus-within {
+    background-color: var(--background-secciones); /* Asegura que el fondo se mantenga consistente */
+}
+.input:focus {
+    background-color: var(--background-secciones); /* Cambia a tu color preferido */
+}
+.input::selection {
+    background: var(--color-secundario); /* Cambia el color de selección */
+}

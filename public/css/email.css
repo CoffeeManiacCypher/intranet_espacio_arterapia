@@ -1,0 +1,72 @@
+@import url('input.css');
+
+
+/* Estilos cuando hay un error */
+.input-group.error {
+    border-color: red;
+    animation: shake 0.3s ease-in-out; /* Añade la animación de sacudida */
+}
+
+.input-group.error .label {
+    color: red;
+    font-size: 0.8rem;
+    background-color: var(--background-secciones); /* Hereda el fondo del contenedor */
+    padding: 0 5px; /* Añade espacio para cubrir el borde */
+    border-radius: 10px;
+    z-index: 2; /* Se asegura que el label esté por encima */
+}
+
+
+/* Estilos para el mensaje de error */
+.error-message {
+    color: red;
+    display: none; /* Oculto por defecto */
+    font-size: 0.875rem;
+    margin-top: 5px;
+}
+
+/* Mostrar el mensaje de error */
+.input-group.error + .error-message {
+    display: block;
+}
+
+/* Asegura que el input se mantenga visible correctamente */
+.input-group.error .input {
+    background-color: var(--background-secciones);
+    z-index: 1;
+}
+
+/* Estilos cuando el input está enfocado o tiene texto */
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+    transform: translateY(-200%); /* Mueve el label hacia arriba */
+    font-size: 0.8rem;
+    color: #00A086; /* Color del texto del label por defecto */
+    background-color: var(--background-secciones); /* Hereda el fondo del contenedor */
+    padding: 0 5px; /* Añade espacio para cubrir el borde */
+    border-radius: 10px; /* Añade borde redondeado */
+    z-index: 2; /* Se asegura que el label esté por encima */
+    transition: all 0.3s ease; /* Suaviza la transición */
+}
+
+/* Estilos cuando hay un error y el input está enfocado o tiene texto */
+.input-group.error .input:focus + .label,
+.input-group.error .input:not(:placeholder-shown) + .label {
+    transform: translateY(-200%); /* Mueve el label hacia arriba */
+    font-size: 0.8rem;
+    color: red; /* Cambia el color del label a rojo cuando hay un error */
+    background-color: var(--background-secciones); /* Hereda el fondo del contenedor */
+    padding: 0 5px; /* Añade espacio para cubrir el borde */
+    border-radius: 10px;
+    z-index: 2; /* Mantiene el label por encima del input */
+    transition: all 0.3s ease; /* Suaviza la transición */
+}
+
+/* Estilos para la animación de error (movimiento de negación) */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}

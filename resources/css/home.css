@@ -1,0 +1,304 @@
+/* --------- Configuración general del cuerpo --------- */
+body {
+    background-color: #E9ECF1;
+    transition: background-color 1.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: relative;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* --------- Contenedor principal --------- */
+.home-container {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0;
+    height: 100vh;
+    margin: 0 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --------- Título principal --------- */
+.home-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    font-style: italic;
+    font-size: 2rem;
+    letter-spacing: 0.03em;
+    color: var(--color-texto);
+    animation: fadeIn 1s ease-in-out;
+    position: relative;
+    top: -30px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Estilo de los icon-bubble */
+.icon-bubble {
+    width: 180px;
+    height: 180px;
+    background: var(--background-secciones);
+    border-radius: 20px;
+    box-shadow:
+        inset 0px -8px 15px rgba(0, 0, 0, 0.2),
+        0px 8px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+
+    position: absolute;
+    left: -10%;
+    margin: -25px 0 0 -25px; 
+}
+
+.icon-bubble::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%; 
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    z-index: 1; 
+    pointer-events: none; /
+}
+
+.icon-bubble img {
+    width: 85%;
+    height: 85%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.icon-bubble:hover {
+    transform: scale(1.2);
+    background-color: var(--color-primario);
+}
+
+
+/* --------- Descripción del módulo --------- */
+.module-description {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.1rem;
+    color: var(--color-texto);
+    transition: all 0.3s ease-in-out;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.description-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.description-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-primario);
+}
+
+.description-header i {
+    font-size: 1.6rem;
+    color: var(--color-primario);
+}
+
+.description-content {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+}
+
+/* --------- Animaciones --------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popupIn {
+    0% {
+        transform: translateX(-50%) scale(0.8);
+        opacity: 0;
+    }
+    80% {
+        transform: translateX(-50%) scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* Estado visible del cuadro de descripción */
+.module-description.show {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+    animation: popupIn 0.5s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+/* Estado oculto del cuadro de descripción */
+.module-description.hide {
+    transform: translateX(-50%) scale(0.95);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* --------- Descripción del módulo --------- */
+
+
+.swiper-container-wrapper {
+    height: 300px;
+    width: 700px; 
+    overflow: hidden; 
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+
+}
+
+/* Gradientes en los extremos */
+.gradient-left,
+.gradient-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 1; /* Siempre visible inicialmente */
+    transition: opacity 1.5s ease-in-out, background 1.5s ease-in-out;
+    will-change: opacity, background; /* Optimización para transiciones */
+}
+
+/* Gradiente izquierdo */
+.gradient-left {
+    left: 0;
+    background: linear-gradient(to right, #E9ECF1 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Gradiente derecho */
+.gradient-right {
+    right: 0;
+    background: linear-gradient(to left, #E9ECF1 50%, rgba(255, 255, 255, 0) 100%);
+}
+
+.swiper-container-wrapper .swiper-container {
+    height: 50px;
+    width: 100%; 
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* El problematico */
+.swiper-wrapper {
+    bottom: 3.5rem;
+    transition: transform 0.3s ease; 
+}
+
+.swiper-slide .swiper-slide-active {
+    transform: scale(1.2); 
+    z-index: 2;
+    transition: transform 0.6s ease-in-out;
+}
+
+.swiper-slide:not(.swiper-slide-active) {
+    filter: blur(1px); 
+    transform: scale(0.8); 
+}
+
+
+.swiper-slide-animated {
+    animation: slideIn 0.6s ease-out;
+}
+
+/* --------- Configuración del Swiper --------- */
+
+.slider-control{
+    height: 40px;
+    position: relative;
+    bottom: -5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.slider-control .swiper-button-next, 
+.slider-control .swiper-button-prev{
+    position: absolute;
+    color: var(--color-primario);
+    background-color: none;
+    width: 40px;
+    height: 40px;
+    z-index: 50;
+}
+
+.slider-control .swiper-pagination{
+    position: absolute;
+    width: 15rem;
+    bottom: 1rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.slider-control .swiper-pagination-bullet-active {
+    background: var(--color-primario);
+}

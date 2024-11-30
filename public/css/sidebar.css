@@ -1,0 +1,339 @@
+/* Botón del sidebar */
+#sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-primario);
+    color: var(--texto-oscuros);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#sidebar-toggle:hover {
+    transform: scale(1.1);
+    background-color: var(--color-primario-hover);
+}
+
+#sidebar-toggle i {
+    font-size: 1.5rem;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -310px; /* Oculto inicialmente */
+    width: 250px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--color-primario) 80%, var(--color-secundario));
+    color: var(--texto-oscuros);
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+    z-index: 999;
+    overflow-y: hidden; /* Scroll si hay demasiados elementos */
+    border-right: 1px solid rgba(0, 0, 0, 0.1); /* Separación visual */
+    font-size: 14px !important;
+    border-right: 10px solid rgba(255, 255, 255, 0.2); 
+}
+
+/* Sidebar expandido */
+.sidebar.expanded {
+    transform: translateX(310px); /* Mostrar sidebar */
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+/* Encabezado del sidebar */
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Imagen del logo en el header */
+.sidebar-logo {
+    width: 80%;
+    max-height: 80px;
+    margin: 0 auto 15px;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); /* Sombra para destacar */
+}
+/* Separador general */
+.sidebar-separator {
+    height: 1px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2); /* Color suave */
+    margin: 10px 0; /* Espaciado */
+}
+
+/* Separador entre header y buscador */
+.sidebar-header + .search-bar {
+    margin-top: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Línea separadora */
+    padding-bottom: 10px;
+}
+/* Barra de búsqueda */
+.search-bar {
+    font-family: var(--fuente-texto);
+    padding: 10px;
+    border-radius: 10px;
+    width: 90%;
+    border: none;
+    margin: 10px auto;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--texto);
+    font-size: 0.9rem;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Opciones del menú */
+.sidebar-menu {
+    max-height: calc(100vh - 200px); /* Espacio máximo disponible */
+    overflow: hidden; /* Ocultar scrollbars */
+    list-style: none;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transform: translateX(-10px); /* Desplazamiento inicial */
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sidebar.expanded .sidebar-menu {
+    opacity: 1;
+    transform: translateX(0); /* Aparece suavemente */
+}
+
+/* Elementos individuales del menú */
+.sidebar-item {
+    scroll-snap-align: start;
+    transition: transform 0.3s ease-in-out; 
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px;
+    border-radius: 15px;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+    margin-bottom: 10px;
+    animation: slideIn 0.6s ease forwards; /* Animación de entrada */
+    opacity: 0; /* Oculto inicialmente */
+}
+
+.sidebar.expanded .sidebar-item {
+    opacity: 1;
+    transform: translateX(0); /* Desplazamiento inicial */
+}
+
+.sidebar-item:nth-child(1) { animation-delay: 0.2s; }
+.sidebar-item:nth-child(2) { animation-delay: 0.4s; }
+.sidebar-item:nth-child(3) { animation-delay: 0.6s; }
+.sidebar-item:nth-child(4) { animation-delay: 0.8s; }
+.sidebar-item:nth-child(5) { animation-delay: 1s; }
+
+.sidebar-item:hover {
+    background-color: var(--color-secundario);
+    color: var(--color-primario-hover); /* Texto más claro */
+    transform: translateX(30px); /* Desplazamiento ligero al hacer hover */
+}
+
+.sidebar-item i {
+    font-size: 1.2rem;
+}
+
+/* Elemento activo */
+.sidebar-item.active {
+    background-color: var(--color-auxiliar); /* Resalta el fondo */
+    color: var(--color-primario-hover); /* Texto más claro */
+    border-left: 4px solid var(--color-primario-hover); /* Línea de acento */
+    transform: translateX(5px); /* Sutil desplazamiento hacia la derecha */
+    font-weight: bold; /* Resalta el texto */
+    transition: all 0.3s ease; /* Animación suave */
+}
+/* Indicador animado */
+.sidebar-item.active::before {
+    content: '';
+    position: absolute;
+    left: -8px; /* Posiciona antes del ícono */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-primario-hover);
+    border-radius: 50%; /* Hacerlo circular */
+    animation: pulse 1.5s infinite; /* Animación de pulso */
+}
+
+/* Animación del indicador */
+@keyframes pulse {
+    0% {
+        transform: scale(1) translateY(-50%);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2) translateY(-50%);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1) translateY(-50%);
+        opacity: 1;
+    }
+}
+
+/* Animación de giro para el botón toggle */
+#sidebar-toggle {
+    transition: transform 0.4s ease; /* Suavidad en la animación */
+}
+
+#sidebar-toggle.rotate {
+    transform: rotate(180deg); /* Girar hacia la izquierda al abrir */
+}
+
+#sidebar-toggle.rotate-back {
+    transform: rotate(-180deg); /* Girar hacia la derecha al cerrar */
+}
+
+/* Footer del sidebar */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+/* Contenedor del perfil */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: var(--color-secundario);
+    z-index: 2;
+    position: relative;
+}
+
+/* Perfil elevado */
+.profile-container.elevated {
+    transform: translateY(-140px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Opciones del perfil */
+.dropdown-options {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    background-color: #FAFCFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1;
+}
+
+
+
+.profile-container.elevated .dropdown-options {
+    display: flex;
+    opacity: 1;
+    transform: translateY(-5px); /* Aparece al elevar el perfil */
+}
+
+/* Botones del dropdown */
+.dropdown-item {
+    background: none;
+    border: none;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    gap: 10px;
+    padding: 10px;
+    margin: 10px 10px;
+}
+
+.dropdown-item i {
+    font-size: 1.2rem;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.dropdown-item:hover {
+    background-color: var(--color-secundario-hover);
+}
+
+/* Ícono del perfil */
+.profile-icon {
+    width: 60px; /* Tamaño ligeramente mayor */
+    height: 60px;
+    border-radius: 50%; /* Mantenerlo redondeado */
+    object-fit: cover; /* Ajustar a la imagen sin deformarla */
+    border: 2px solid var(--color-secundario); /* Borde que combina con el diseño */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Sombra ligera */
+    transition: transform 0.3s ease; /* Animación suave */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: bold;
+    color: var(--texto);
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.user-role {
+    font-size: 0.9rem;
+    color: var(--texto);
+    font-style: italic;
+    background-color: var(--color-auxiliar);
+    text-align: center;
+    border-radius: 20px;
+    margin-left: 5px;
+}
+
+/* Animaciones de entrada */
+@keyframes slideIn {
+    from {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

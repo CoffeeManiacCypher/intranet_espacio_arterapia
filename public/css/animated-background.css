@@ -1,0 +1,57 @@
+.animated-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -2; /* Para que esté detrás de los demás elementos */
+}
+
+.animated-png {
+    position: absolute;
+    animation: floatUp 12s linear forwards, fadeOut 12s ease-in-out forwards; /* Ajustamos la duración */
+    transform-origin: center;
+    pointer-events: none; /* Evitar interferencias con eventos */
+    will-change: transform, opacity; /* Optimización para animaciones */
+    z-index: 0;
+}
+
+/* Animación del ascenso */
+@keyframes floatUp {
+    0% {
+        transform: translateY(10vh) rotate(0deg) scale(2.1); /* Más grande al generarse */
+    }
+    50% {
+        transform: translateY(-40vh) rotate(180deg) scale(1.1); /* Reducción progresiva */
+    }
+    100% {
+        transform: translateY(-120vh) rotate(360deg) scale(0.7); /* Más pequeño al desaparecer */
+    }
+}
+
+/* Animación del desvanecimiento */
+@keyframes fadeOut {
+    0% {
+        opacity: 0.9; /* Inicialmente visible */
+    }
+    50% {
+        opacity: 0.7; /* Mantener opacidad durante el recorrido */
+    }
+    100% {
+        opacity: 0; /* Desaparece completamente */
+    }
+}
+
+/* Fondo degradado claro en la parte inferior */
+.animated-background::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10vh;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent); /* Ajustado para un efecto más suave */
+    pointer-events: none;
+    z-index: 2; /* Asegura que quede encima de las figuras */
+}

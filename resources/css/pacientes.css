@@ -1,0 +1,69 @@
+html {
+    font-size: 14px;
+}
+
+
+/* Contenedor principal del layout específico */
+.pacientes-container {
+    display: grid;
+    grid-template-rows: auto auto; 
+    grid-template-columns: 3fr 1fr;/* Permite filas dinámicas */
+    gap: 15px;
+    padding: 10px;
+    max-height: calc(100% - 20px); /* Altura máxima dinámica */
+    overflow: hidden; /* Oculta desbordes */
+}
+
+.pacientes-acciones {
+    display: flex;
+    gap: 10px;
+    background-color: var(--background-secciones);
+    grid-column: span 2; /* Ocupa todo el ancho superior */
+    border-radius: 15px;
+    max-height: 200px; /* Ajusta según el diseño */
+    overflow-y: hidden; /* Scroll solo si el contenido excede */
+    padding: 15px;
+    box-sizing: border-box; /* Asegura que padding no incremente el tamaño */
+}
+
+.pacientes-tabla {
+    grid-column: 1 / 2;
+    background-color: var(--background-secciones); 
+    padding: 15px;
+    border-radius: 15px;
+
+    max-height: 400px; 
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+
+}
+
+.pacientes-filtro {
+    grid-column: 2 / 3;
+    background-color: var(--background-secciones); 
+    padding: 15px;
+    border-radius: 15px;
+
+    max-height: 400px; /* Ajusta según el diseño */
+    max-width: calc(100% - 20px);
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+}
+.pacientes-container > div {
+    max-width: 100%;
+    overflow-x: hidden; /* Evita scroll horizontal */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .pacientes-container {
+        grid-template-columns: 1fr; /* Todo en una columna en pantallas pequeñas */
+        grid-template-rows: auto;
+    }
+
+    .pacientes-red {
+        grid-column: span 1;
+    }
+}

@@ -1,0 +1,147 @@
+html {
+    font-size: 14px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-home);
+    width: 100%;
+}
+
+/* Contenedor principal */
+.layout-container {
+    display: grid;
+    grid-template-columns: 250px 1fr; 
+    padding: 60px 100px; 
+    box-sizing: border-box; 
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* Sidebar */
+.layout-sidebar {
+    background-color:var(--background-secciones);
+    border-top-left-radius: 15px; 
+    border-bottom-left-radius: 15px; 
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative; /* Necesario para que el pseudoelemento se posicione correctamente */
+}
+
+/* Pseudoelemento para el borde derecho */
+.layout-sidebar::after {
+    content: ''; /* Pseudoelemento vacío */
+    position: absolute;
+    top: 10%; /* Ajusta para controlar la posición vertical */
+    bottom: 10%; /* Ajusta para controlar la longitud del borde */
+    right: 0; /* Coloca el borde en el lado derecho */
+    width: 3px; /* Grosor del borde */
+    background-color: var(--color-auxiliar); 
+    border-radius: 5px; /* Opcional, para bordes redondeados */
+}
+
+.sidebar-content {
+    background-color:var(--background-secciones);
+    color: var(--color-primario);
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1rem;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-content:hover {
+    background-color: var(--color-auxiliar);
+    color: var(--color-primario-hover);
+}
+
+.layout-content {
+    display: flex;
+    flex-direction: column;
+    background-color: #EEF6F9;
+    padding: 12px;
+    border-top-right-radius: 15px; 
+    border-bottom-right-radius: 15px;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+    height: 100vh; /* Fija la altura máxima al 100% del viewport */
+    max-height: 87vh; /* Asegura que no crezca más allá del viewport */
+    overflow: hidden; /* Previene desbordamientos */
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 20px;
+    flex-grow: 1; /* Hace que ocupe el espacio restante */
+    overflow-y: auto; /* Permite scroll vertical si el contenido excede el espacio */
+    max-height: 100%; /* Limita el tamaño al contenedor padre */
+}
+
+
+
+/* Título del módulo*/
+.content-title {
+    font-size: 0.7rem; /* El titulo lo ajuste de esta manera para el tamaño no resaltara del contenido */
+    color: var(--texto);
+    border-bottom: 2px solid var(--color-primario);
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+/* Contenido de la seccion - TODO LO QUE MODIFIQUES AQUI AFECTARA AL CONTENIDO */
+.content-main {
+    border-radius: 0px;
+    padding: 0px;
+    height: 100%;
+    overflow-y: auto;
+    color: var(--texto);
+    
+    max-height: 100%;
+    overflow-y: auto; /* Scroll solo si el contenido excede la altura máxima */
+    overflow-x: auto; /* Scroll horizontal solo si es necesario */
+    word-wrap: break-word; /* Ajusta las palabras largas para evitar que desborden */
+    white-space: normal; /* Permite el ajuste de líneas largas */
+}
+
+/* Personalizar el scroll */
+.content-main::-webkit-scrollbar {
+    width: 8px; /* Ancho del scroll */
+}
+
+.content-main::-webkit-scrollbar-thumb {
+    background-color: var(--color-primario);
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.content-main::-webkit-scrollbar-track {
+    background-color: var(--background-home); /* Fondo del track del scroll */
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .layout-container {
+        grid-template-columns: 1fr; /* Elimina el sidebar */
+        max-width: 100%; /* Permite ocupar todo el ancho */
+        padding: 0 10px; /* Márgenes internos más pequeños */
+    }
+
+    .layout-sidebar {
+        display: none; /* Oculta el sidebar */
+    }
+}
+
+/* Ajuste para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .content-main {
+        max-height: 300px; /* Menor altura en pantallas pequeñas */
+    }
+}

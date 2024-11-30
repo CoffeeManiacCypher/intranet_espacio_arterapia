@@ -1,0 +1,139 @@
+/* Contenedor de las alertas */
+#alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Estilo base de las alertas */
+.alert {
+    display: flex;
+    align-items: center; /* Alinear contenido en una línea */
+    justify-content: space-between;
+    padding: 15px 20px 25px; /* Más espacio para la barra de progreso */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    animation: fade-in 0.4s ease-out;
+    position: relative;
+    gap: 10px; /* Espacio entre texto y botón */
+}
+
+/* Contenido del mensaje */
+.alert-text {
+    flex: 1; /* Asegura que el texto ocupe el espacio disponible */
+    color: inherit; /* Usa el color del tipo de alerta */
+    word-break: break-word; /* Rompe líneas si es necesario */
+}
+
+/* Tipos de alertas */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 5px solid #28a745;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid #dc3545;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left: 5px solid #ffc107;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-left: 5px solid #17a2b8;
+}
+
+/* Botón de cierre */
+.alert-close {
+    flex-shrink: 0; /* No permite que el botón se reduzca */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    margin-left: 10px; /* Añade espacio entre el texto y el botón */
+}
+
+.alert-close:hover {
+    color: var(--color-primario); /* Cambia el color al pasar el cursor */
+    transform: scale(1.2); /* Aumenta ligeramente el tamaño */
+}
+
+.alert-close i {
+    font-size: 1.2rem; /* Tamaño del ícono */
+}
+
+/* Barra de progreso */
+.alert-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+}
+
+.alert-progress span {
+    display: block;
+    height: 100%;
+    background-color: currentColor; /* Usa el color del texto */
+    animation: progress-bar linear;
+}
+
+/* Animaciones */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(-10%);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Barra de progreso animada */
+@keyframes progress-bar {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+}
+
+/* Animación de salida personalizada */
+.alert.hide {
+    animation: fade-out 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}

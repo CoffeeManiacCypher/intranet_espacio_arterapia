@@ -1,0 +1,163 @@
+/* --------------------------------------------------Contenedor de la tabla-------------------------------------------------------------*/
+.tabla-contenedor {
+    border-radius: 20px;
+    height: 100%; 
+    width: 100%; 
+    font-family: var(--fuente-texto);
+    display: flex;
+    flex-direction: column;
+}
+/* --------------------------------------------------Contenedor de la tabla-------------------------------------------------------------*/
+
+/* ----------------------------------------------------------Scroll-------------------------------------------------------------*/
+.tabla-scroll {
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 500px;
+    border-radius: 12px;
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 60px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primario-hover) #F7F7F7;
+}
+
+.tabla-scroll::-webkit-scrollbar {
+    width: 12px;
+}
+
+.tabla-scroll::-webkit-scrollbar-track {
+    background: #F7F7F7;
+    border-radius: 10px;
+}
+
+.tabla-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--color-primario-hover);
+    border-radius: 10px;
+    border: 3px solid #F7F7F7;
+}
+
+.tabla-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-primario);
+}
+/* ----------------------------------------------------------Scroll-------------------------------------------------------------*/
+
+/* ---------------------------------------------------Tabla (general)-------------------------------------------------------------*/
+.tabla-dinamica {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tabla-dinamica th, 
+.tabla-dinamica td {
+    font-size: 14px;
+    text-align: center;
+    padding: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tabla-dinamica th:first-child,
+.tabla-dinamica td:first-child {
+    width: 40px;
+    text-align: center;
+}
+/* ---------------------------------------------------Tabla (general)-------------------------------------------------------------*/
+
+/* ---------------------------------------------------Tabla (Encabezado)-------------------------------------------------------------*/
+.tabla-dinamica thead th {
+    font-weight: bold;
+    background-color: var(--color-primario);
+    color: var(--texto-oscuros);
+    text-align: center;
+    position: sticky;
+    top: 0px;
+    border-bottom: 2px solid var(--color-auxiliar);
+    z-index: 2;
+    height: 50px; 
+    line-height: 50px; 
+}
+
+.tabla-dinamica thead th .custom-checkbox {
+    border: 2px solid var(--background-secciones);
+}
+
+
+.tabla-dinamica thead th .checkbox:checked + .custom-checkbox {
+    background-color: var(--color-secundario);
+    box-shadow: 0 0 5px var(--color-secundario);
+    border-color: var(--background-secciones);
+}
+
+.tabla-dinamica thead th .custom-checkbox::after {
+    color: var(--color-primario-hover);
+}
+/* ---------------------------------------------------Tabla (Encabezado)-------------------------------------------------------------*/
+
+/* ---------------------------------------------------Tabla (Cuerpo)-------------------------------------------------------------*/
+.tabla-dinamica tbody tr {
+    scroll-snap-align: start;
+    scroll-margin-top: 60px; /* Evita que el encabezado cubra las filas */
+}
+
+/* Alternancia de colores en filas */
+.tabla-dinamica tbody tr:nth-child(odd) {
+    background-color:  #FAFCFF;
+}
+
+.tabla-dinamica tbody tr:nth-child(even) {
+    background-color:var(--background-home);
+}
+
+/* Hover en filas */
+.tabla-dinamica tbody tr:hover {
+    background-color: var(--color-auxiliar);
+    transition: background-color 0.2s ease-in, background-color 0.5s ease-out;
+}
+
+/* Estilo para filas seleccionadas */
+.tabla-dinamica tbody tr.seleccionada {
+    background-color: var(--color-secundario);
+}
+
+/* Hover en filas seleccionadas */
+.tabla-dinamica tbody tr.seleccionada:hover {
+    background-color: var(--color-secundario-hover);
+}
+/* ---------------------------------------------------Tabla (Cuerpo)-------------------------------------------------------------*/
+
+/* ---------------------------------------------------Responsivo-------------------------------------------------------------*/
+@media (max-width: 768px) {
+    .tabla-dinamica th, 
+    .tabla-dinamica td {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .tabla-contenedor {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .tabla-scroll {
+        max-height: 300px;
+    }
+    .btn-accion {
+        font-size: 10px;
+        padding: 8px;
+    }
+}
+
+/* Compatibilidad dentro de tablas */
+.tabla-dinamica .checkbox-wrapper {
+    justify-content: center; /* Alineación dentro de celdas */
+    gap: 0;
+}
+
+.tabla-dinamica td, .tabla-dinamica th {
+    padding: 10px;
+    vertical-align: middle;
+}
+
+
