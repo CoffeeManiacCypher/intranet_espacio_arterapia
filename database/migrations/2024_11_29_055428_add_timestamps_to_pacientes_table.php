@@ -11,15 +11,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pacientes', function (Blueprint $table) {
-            $table->timestamps(); // Esto añade `created_at` y `updated_at`
+            if (!Schema::hasColumn('pacientes', 'created_at')) {
+                $table->timestamp('created_at')->nullable();
+            }
+            if (!Schema::hasColumn('pacientes', 'updated_at')) {
+                $table->timestamp('updated_at')->nullable();
+            }
         });
     }
     
-    public function down()
-    {
-        Schema::table('pacientes', function (Blueprint $table) {
-            $table->dropTimestamps();
-        });
-    }
     
 };

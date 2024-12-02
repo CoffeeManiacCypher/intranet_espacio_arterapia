@@ -1,0 +1,29 @@
+/* Contenedor de errores */
+.error-container {
+    display: none; /* Ocultar por defecto */
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Mensajes de error individuales */
+.error-message {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+/* Para los campos con errores */
+.input-error {
+    border-color: #f5c6cb; /* Color rojo para el borde */
+    background-color: #f8d7da; /* Fondo ligeramente rosado */
+}
+
+/* Para el texto de los labels asociados a campos con errores */
+.input-error + .label {
+    color: #721c24; /* Color rojo oscuro para el label */
+}

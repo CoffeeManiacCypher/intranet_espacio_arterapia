@@ -30,7 +30,7 @@
                 <div class="swiper-slide">
                     <div class="icon-bubble" data-description="Editor de Giftcard: Gestiona giftcards y sus configuraciones."
                         data-icon="bi bi-card-text" data-bg-color="#f9f5ed">
-                        <a href="#">
+                        <a href="{{ route('giftcards.index') }}">
                             <img src="{{ asset('img/icons/giftcard.jpg') }}" alt="Giftcards">
                         </a>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="swiper-slide">
                     <div class="icon-bubble" data-description="Gestor de finanzas: Procesa pagos rápidos mediante códigos QR."
                         data-icon="bi bi-qr-code" data-bg-color="#e0e1f7">
-                        <a href="#">
+                        <a href="{{ route('pagoqr.index') }}">
                             <img src="{{ asset('img/icons/pagoqr.jpg') }}" alt="Pago QR">
                         </a>
                     </div>
@@ -50,7 +50,7 @@
                 <div class="swiper-slide">
                     <div class="icon-bubble" data-description="Valoraciones: Consulta y administra las valoraciones de tus servicios."
                         data-icon="bi bi-star" data-bg-color="#ffe8ef">
-                        <a href="#">
+                        <a href="{{ route('valoraciones.index') }}">
                             <img src="{{ asset('img/icons/valoracion.jpg') }}" alt="Valoraciones">
                         </a>
                     </div>
@@ -59,39 +59,39 @@
                 <!-- Módulo Servicios -->
                 <div class="swiper-slide">
                     <div class="icon-bubble" data-description="Servicios: Accede a la gestión de tus servicios."
-                        data-icon="bi bi-briefcase" data-bg-color="#ede4f6">
-                        <a href="#">
-                            <img src="{{ asset('img/icons/default.png') }}" alt="Servicios">
+                        data-icon="bi bi-briefcase" data-bg-color="#ded0e6">
+                        <a href="{{ route('servicios.index') }}">
+                            <img src="{{ asset('img/icons/servicios.jpg') }}" alt="Servicios">
                         </a>
                     </div>
                 </div>
 
                 <!-- Módulo Servicios -->
                 <div class="swiper-slide">
-                    <div class="icon-bubble" data-description="Servicios: Accede a la gestión de tus servicios."
-                        data-icon="bi bi-briefcase" data-bg-color="#e3e3e3">
+                    <div class="icon-bubble" data-description="Proximamente: "
+                        data-icon="" data-bg-color="#e3e3e3">
                         <a href="#">
-                            <img src="{{ asset('img/icons/default.png') }}" alt="Servicios">
+                            <img src="{{ asset('img/icons/default.jpg') }}" alt="proximamente">
                         </a>
                     </div>
                 </div>
 
                 <!-- Módulo Servicios -->
                 <div class="swiper-slide">
-                    <div class="icon-bubble" data-description="Servicios: Accede a la gestión de tus servicios."
-                        data-icon="bi bi-briefcase" data-bg-color="#e3e3e3">
+                    <div class="icon-bubble" data-description="Proximamente: "
+                        data-icon="" data-bg-color="#e3e3e3">
                         <a href="#">
-                            <img src="{{ asset('img/icons/default.png') }}" alt="Servicios">
+                            <img src="{{ asset('img/icons/default.jpg') }}" alt="proximamente">
                         </a>
                     </div>
                 </div>
 
                 <!-- Módulo Servicios -->
                 <div class="swiper-slide">
-                    <div class="icon-bubble" data-description="Servicios: Accede a la gestión de tus servicios."
-                        data-icon="bi bi-briefcase" data-bg-color="#e3e3e3">
+                    <div class="icon-bubble" data-description="Proximamente: "
+                        data-icon="" data-bg-color="#e3e3e3">
                         <a href="#">
-                            <img src="{{ asset('img/icons/default.png') }}" alt="Servicios">
+                            <img src="{{ asset('img/icons/default.jpg') }}" alt="proximamente">
                         </a>
                     </div>
                 </div>

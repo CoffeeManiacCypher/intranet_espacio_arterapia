@@ -13,7 +13,7 @@
 .tabla-scroll {
     overflow-y: auto;
     overflow-x: auto;
-    max-height: 500px;
+    max-height: 600px;
     border-radius: 12px;
     scroll-snap-type: y mandatory;
     scroll-padding-top: 60px;
@@ -161,3 +161,31 @@
 }
 
 
+.tabla-controles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.tabla-navegacion {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tabla-navegacion button,
+.tabla-navegacion a {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tabla-navegacion button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

@@ -17,6 +17,17 @@
     background: linear-gradient(145deg, #d0e4ff, #9eb2d1); /* Color más intenso en hover */
 }
 
+.btn:disabled {
+    background: rgb(136, 133, 133);
+    color: #343434;
+}
+.btn:disabled:hover{
+    background: rgb(125, 125, 125);
+    box-shadow: none;
+    color: #343434;
+    transform: scale(1); 
+}
+
 .btn:active {
     transform: scale(0.98); /* Simula un clic */
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.1);

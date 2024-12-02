@@ -7,20 +7,63 @@ use App\Models\Ciudad;
 use App\Models\Comuna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Shuchkin\SimpleXLSX;
-
 
 class PacientesController extends Controller
 {
     /**
      * Muestra la lista de pacientes junto con las comunas y ciudades relacionadas.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pacientes = Paciente::with(['comuna', 'ciudad'])->get(); // Relación con comunas y ciudades
+        $perPage = $request->input('per_page', 10);
+
+        $query = Paciente::with(['comuna', 'ciudad']);
+
+        // Filtros
+        if ($request->filled('nombre')) {
+            $query->where('nombres', 'like', '%' . $request->nombre . '%')
+                  ->orWhere('apellidos', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('rut')) {
+            $query->where('rut', 'like', '%' . $request->rut . '%');
+        }
+
+        if ($request->filled('correo')) {
+            $query->where('email', 'like', '%' . $request->correo . '%');
+        }
+
+        if ($request->filled('verificado')) {
+            $query->where('verificado', $request->verificado);
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        if ($request->filled('telefono')) {
+            $query->where('telefono', 'like', '%' . $request->telefono . '%');
+        }
+
+        if ($request->filled('fecha_registro')) {
+            $query->whereDate('created_at', $request->fecha_registro);
+        }
+        if ($request->filled('ciudad')) {
+            $query->where('ciudad_id', $request->ciudad);
+        }
+        if ($request->filled('comuna')) {
+            $query->where('comuna_id', $request->comuna);
+        }
+        
+        $pacientes = $query->paginate($perPage);
+
+        // Retornar JSON si es una solicitud AJAX
+        if ($request->ajax()) {
+            return response()->json($pacientes);
+        }
         $ciudades = Ciudad::all();
         $comunas = Comuna::all();
-
+    
         return view('pacientes.index', compact('pacientes', 'ciudades', 'comunas'));
     }
 
@@ -36,39 +79,64 @@ class PacientesController extends Controller
     }
 
     /**
+     * Valida los datos antes de guardar o registrar un paciente.
+     */
+    public function validarDatos(Request $request)
+    {
+        $email = $request->input('email');
+        $rut = $request->input('rut');
+
+        if ($email && Paciente::where('email', $email)->exists()) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'El email ingresado ya está registrado.',
+            ], 422);
+        }
+
+        if ($rut && Paciente::where('rut', $rut)->exists()) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'El RUT ingresado ya está registrado.',
+            ], 422);
+        }
+
+        return response()->json(['valid' => true]);
+    }
+
+    /**
      * Almacena un nuevo paciente.
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'rut' => 'nullable|max:12|unique:pacientes,rut', // Rut puede ser nulo para casos incompletos
-            'nombres' => 'nullable|max:255',
-            'apellidos' => 'nullable|max:255',
-            'email' => 'nullable|email|max:255',
-            'telefono' => 'nullable|max:15',
-            'telefono_secundario' => 'nullable|max:15',
-            'direccion' => 'nullable|max:255',
-            'comuna_id' => 'nullable|exists:comunas,id',
-            'ciudad_id' => 'nullable|exists:ciudades,id',
-            'fecha_nacimiento' => 'nullable|date',
-            'genero' => 'required|in:Femenino,Masculino,Otro',
-        ]);
+        DB::beginTransaction();
 
-        // Calcula la edad si se proporciona la fecha de nacimiento
-        $validated['edad'] = $validated['fecha_nacimiento']
-            ? now()->year - date('Y', strtotime($validated['fecha_nacimiento']))
-            : null;
+        try {
+            // Validación de datos
+            $validated = $request->validate([
+                'rut' => 'required|max:12|unique:pacientes,rut',
+                'nombres' => 'required|max:255',
+                'apellidos' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:pacientes,email',
+                'telefono' => 'nullable|max:15',
+                'telefono_secundario' => 'nullable|max:15',
+                'direccion' => 'nullable|max:255',
+                'comuna_id' => 'nullable|exists:comunas,comuna_id',
+                'ciudad_id' => 'nullable|exists:ciudades,ciudad_id',
+                'fecha_nacimiento' => 'required|date|before:today', // Validar en formato 'Y-m-d'
+                'genero' => 'required|in:Femenino,Masculino,Otro',
+            ]);
 
-        // Determina el estado de verificación
-        $validated['verificado'] = $this->verificarEstadoPaciente($validated);
+            // Crear y guardar el paciente
+            $paciente = new Paciente($validated);
+            $paciente->save();
 
-        // Genera un ID único si falta el ID
-        $validated['id'] = Paciente::max('id') + 1;
+            DB::commit(); // Confirmar transacción
 
-        // Crea el paciente
-        Paciente::create($validated);
-
-        return redirect()->route('pacientes.index')->with('success', 'Paciente creado correctamente.');
+            return redirect()->route('pacientes.index')->with('success', 'Paciente creado correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Revertir los cambios si ocurre un error
+            return back()->withErrors(['error' => 'Error al guardar el paciente: ' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -77,121 +145,85 @@ class PacientesController extends Controller
     private function verificarEstadoPaciente(array $data): string
     {
         if (empty($data['rut']) || empty($data['nombres']) || empty($data['apellidos'])) {
-            return 'pendiente'; // Datos incompletos
+            return 'pendiente';
         }
-        return 'verificado'; // Datos completos
+        return 'verificado';
     }
 
     /**
-     * Filtra los pacientes con base en los parámetros enviados.
-     */
-    public function filtrar(Request $request)
-    {
-        $query = Paciente::query();
-
-        if ($request->filled('genero')) {
-            $query->where('genero', $request->genero);
-        }
-
-        if ($request->filled('estado')) {
-            $query->where('verificado', $request->estado);
-        }
-
-        if ($request->filled('comuna_id')) {
-            $query->where('comuna_id', $request->comuna_id);
-        }
-
-        if ($request->filled('ciudad_id')) {
-            $query->where('ciudad_id', $request->ciudad_id);
-        }
-
-        $pacientes = $query->get();
-        return view('pacientes.index', compact('pacientes'));
-    }
-
-    /**
-     * Actualiza los datos de los pacientes existentes para manejar los campos faltantes.
+     * Actualiza los datos de los pacientes existentes.
      */
     public function actualizarPacientes()
     {
         $pacientes = Paciente::all();
 
         foreach ($pacientes as $paciente) {
-            // Generar un ID único para los pacientes sin ID
-            if (empty($paciente->id)) {
-                $paciente->id = Paciente::max('id') + 1;
-            }
-
-            // Determina si el paciente está verificado o pendiente
             $paciente->verificado = $this->verificarEstadoPaciente($paciente->toArray());
-
-            // Guarda los cambios
             $paciente->save();
         }
 
         return redirect()->route('pacientes.index')->with('success', 'Pacientes actualizados correctamente.');
     }
 
-    public function importar(Request $request)
+    public function setRutAttribute($value)
     {
-        $request->validate([
-            'archivo' => 'required|file|mimes:xlsx',
+        $this->attributes['rut'] = preg_replace('/[^0-9kK]/', '', strtolower($value)); // Eliminar puntos y convertir a minúsculas
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'rut' => 'required|max:12',
+            'nombres' => 'required|max:255',
+            'apellidos' => 'required|max:255',
+            'email' => 'required|email',
+            'telefono' => 'nullable|max:15',
+            'direccion' => 'nullable|max:255',
+            'fecha_nacimiento' => 'required|date',
+            'genero' => 'required|in:Femenino,Masculino,Otro',
         ]);
     
-        if ($xlsx = SimpleXLSX::parse($request->file('archivo'))) {
-            $rows = $xlsx->rows();
-            unset($rows[0]); // Eliminar encabezado si está presente
-    
-            foreach ($rows as $row) {
-                Paciente::create([
-                    'nombres' => $row[0] ?? null,
-                    'apellidos' => $row[1] ?? null,
-                    'telefono' => $row[2] ?? null,
-                    'verificado' => $row[3] ?? 'pendiente',
-                    'fecha_creacion' => now(),
-                ]);
-            }
-    
-            return redirect()->route('pacientes.index')->with('success', 'Pacientes importados correctamente.');
+        $paciente = Paciente::find($id);
+        if (!$paciente) {
+            return response()->json(['message' => 'Paciente no encontrado.'], 404);
         }
     
-        return redirect()->route('pacientes.index')->with('error', 'Error al procesar el archivo.');
-    }
+        $paciente->update($validated);
     
-    public function exportar()
+        return response()->json(['message' => 'Paciente actualizado con éxito.']);
+    }
+
+    public function show($id)
     {
-        $filename = 'pacientes_' . now()->format('Y_m_d_His') . '.csv';
-        $pacientes = DB::table('pacientes')->get();
+        $paciente = Paciente::with(['comuna', 'ciudad'])->find($id);
+        if (!$paciente) {
+            return response()->json(['error' => 'Paciente no encontrado.'], 404);
+        }
+        return response()->json($paciente);
+    }
 
-        // Establecer encabezados para la descarga del archivo
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=\"$filename\"",
-        ];
+    public function actualizarEdad($id)
+    {
+        $paciente = Paciente::find($id);
+        if (!$paciente) {
+            return response()->json(['message' => 'Paciente no encontrado.'], 404);
+        }
+    
+        $paciente->edad = Carbon::parse($paciente->fecha_nacimiento)->age;
+        $paciente->save();
+    
+        return response()->json(['message' => 'Edad actualizada correctamente.']);
+    }
 
-        $callback = function () use ($pacientes) {
-            $file = fopen('php://output', 'w');
-            
-            // Escribir encabezados en el CSV
-            fputcsv($file, ['ID', 'Nombres', 'Apellidos', 'Teléfono', 'Email', 'Estado', 'Fecha Registro']);
-
-            // Escribir datos
-            foreach ($pacientes as $paciente) {
-                fputcsv($file, [
-                    $paciente->id,
-                    $paciente->nombres,
-                    $paciente->apellidos,
-                    $paciente->telefono,
-                    $paciente->email,
-                    ucfirst($paciente->verificado),
-                    $paciente->created_at,
-                ]);
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+    public function destroy($id)
+    {
+        $paciente = Paciente::find($id);
+        if ($paciente) {
+            $paciente->delete();
+            return response()->json(['message' => 'Paciente eliminado con éxito.']);
+        }
+    
+        return response()->json(['message' => 'Paciente no encontrado.'], 404);
     }
 
 }

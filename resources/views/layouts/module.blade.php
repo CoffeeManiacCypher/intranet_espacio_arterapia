@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Módulo')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Para que cargue todos los componentes de css -->
     @php

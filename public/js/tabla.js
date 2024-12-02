@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isChecked = selectAllCheckbox.checked;
         rowCheckboxes.forEach((checkbox, index) => {
             const row = rows[index];
-            if (!row.hasAttribute('data-has-modal')) {
+            if (row) {
                 checkbox.checked = isChecked;
                 toggleRowSelection(row, isChecked);
             }
@@ -19,30 +19,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Seleccionar/Deseleccionar una fila individual mediante checkbox
     rowCheckboxes.forEach((checkbox, index) => {
         const row = rows[index];
-        checkbox.addEventListener('change', (e) => {
-            if (!row.hasAttribute('data-has-modal')) {
-                toggleRowSelection(row, checkbox.checked);
-                updateSelectAllState();
-                e.stopPropagation(); // Evitar conflictos con otros eventos
-            }
+        checkbox?.addEventListener('change', (e) => {
+            toggleRowSelection(row, checkbox.checked);
+            updateSelectAllState();
+            e.stopPropagation();
         });
     });
 
-    // Selección de filas al hacer clic en cualquier parte de la fila
-    rows.forEach((row, index) => {
-        row.addEventListener('click', (e) => {
-            if (
-                e.target.classList.contains('checkbox') || 
-                row.hasAttribute('data-has-modal')
-            ) {
-                return; // Ignorar si es un checkbox o tiene modal
+    rows.forEach((row) => {
+        row?.addEventListener('click', (e) => {
+            // Ignorar filas que tienen modales
+            if (row.hasAttribute('data-has-modal')) {
+                console.log('Fila con modal ignorada por tabla.js');
+                return;
             }
+    
             const checkbox = row.querySelector('.checkbox');
-            checkbox.checked = !checkbox.checked;
-            toggleRowSelection(row, checkbox.checked);
-            updateSelectAllState();
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                toggleRowSelection(row, checkbox.checked);
+                updateSelectAllState();
+            }
         });
     });
+    
+    
+    
+    
 
     // Función para aplicar o quitar la clase seleccionada
     function toggleRowSelection(row, isSelected) {
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ordenar columnas
     sortableColumns.forEach((column) => {
-        column.addEventListener('click', () => {
+        column?.addEventListener('click', () => {
             const index = column.dataset.column;
             const direction = column.classList.contains('asc') ? 'desc' : 'asc';
 
@@ -90,9 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Actualiza los íconos de ordenación
     function updateSortIcons(column, direction) {
-        sortableColumns.forEach((col) => {
-            col.classList.remove('asc', 'desc');
-        });
+        sortableColumns.forEach((col) => col.classList.remove('asc', 'desc'));
         column.classList.add(direction);
     }
 });

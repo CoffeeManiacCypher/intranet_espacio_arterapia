@@ -12,6 +12,14 @@ Route::get('/pacientes/create', [PacientesController::class, 'create'])->name('p
 Route::post('/pacientes', [PacientesController::class, 'store'])->name('pacientes.store');
 Route::post('/pacientes/importar', [PacienteController::class, 'importar'])->name('pacientes.importar');
 Route::get('/pacientes/exportar/{formato}', [PacienteController::class, 'exportar'])->name('pacientes.exportar');
+Route::post('/pacientes/validar', [PacientesController::class, 'validarDatos'])->name('pacientes.validar');
+Route::post('/pacientes/update', [PacientesController::class, 'update'])->name('pacientes.update');
+Route::get('/pacientes/{id}', [PacientesController::class, 'show'])->name('pacientes.show');
+
+Route::put('/pacientes/{id}', [PacientesController::class, 'update']);
+Route::post('/pacientes/{id}/actualizar-edad', [PacientesController::class, 'actualizarEdad']);
+Route::delete('/pacientes/{id}', [PacientesController::class, 'destroy'])->name('pacientes.destroy');
+Route::get('pacientes/filtrar', [PacientesController::class, 'filtrar'])->name('pacientes.filtrar');
 
 
 
